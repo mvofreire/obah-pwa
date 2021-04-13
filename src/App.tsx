@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { QueryClientProvider, QueryClient } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { AppContextProvider, useAppContext } from "contexts/app.context";
+import { ThemeProvider } from "@material-ui/styles";
+import PrivateContainer from "containers/private";
+import PublicContainer from "containers/public";
+import theme from "./theme-variables";
+import "./App.less";
 
-function App() {
+const queryClient = new QueryClient();
+function AppContainer() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <QueryClientProvider client={queryClient}>
+        <AppContextProvider>
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
+        </AppContextProvider>
+        <ReactQueryDevtools initialIsOpen={false} position="top-right" />
+      </QueryClientProvider>
+    </Router>
   );
 }
 
-export default App;
+function App() {
+  const { session } = useAppContext();
+  return (
+    <>
+      {!!session && <PrivateContainer />}
+      {!session && <PublicContainer />}
+    </>
+  );
+}
+
+export default AppContainer;
