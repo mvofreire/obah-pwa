@@ -1,6 +1,6 @@
 import { Envs } from "./envs";
 
-const env = process.env.VERCEL || Envs.development;
+const env = process.env.NODE_ENV || Envs.development;
 const isProd = env === Envs.production;
 
 const baseUrl = isProd
