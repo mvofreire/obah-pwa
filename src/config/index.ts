@@ -1,13 +1,15 @@
 const env = process.env.NODE_ENV;
 const isProd = env === "production";
-const apiUrl = isProd
+const baseUrl = isProd
   ? process.env.REACT_APP_API_URL
   : process.env.REACT_APP_API_DEV_URL;
-console.log(apiUrl);
+
+console.log(env, baseUrl, isProd);
+
 const config = {
   storageKey: "obah-key",
   storageUserKey: "obah-user-key",
-  baseUrl: apiUrl,
+  baseUrl,
 };
 
 export default config;
