@@ -7,7 +7,7 @@ const baseUrl = isProd
   ? process.env.REACT_APP_API_URL
   : process.env.REACT_APP_API_DEV_URL;
 
-console.log(env, baseUrl, process.env.VERCEL);
+console.log(env, baseUrl, process.env.VERCEL, 'dev');
 
 const config = {
   storageKey: "obah-key",
