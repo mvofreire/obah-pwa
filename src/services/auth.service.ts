@@ -7,3 +7,7 @@ export const makeLogin = (email: string, password: string) => {
 export const registerUser = (name: string, email: string, password: string) => {
   return request.post("/register/client", { name, email, password });
 };
+
+export const emailExists = (email: string) => {
+  return request.post("/client/email-exists", { email });
+};

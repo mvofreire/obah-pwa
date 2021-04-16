@@ -10,21 +10,25 @@ type ContentProps = {
     | [number, number]
     | [number, number, number]
     | [number, number, number, number];
+  direction?: "horizontal" | "vertical";
   style?: CSSProperties;
+  className?: string;
 };
 
 const Content: React.FC<ContentProps> = ({
   children,
   padding = 0,
   center = false,
+  direction = "horizontal",
+  className,
   ...rest
 }) => {
-  const classes = useStyle({ padding });
+  const classes = useStyle({ padding, direction });
 
   return (
     <div
       {...rest}
-      className={clsx(classes.root, {
+      className={clsx(classes.root, className, {
         [classes.centralize]: center,
       })}
     >

@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
+import { ConfigProvider } from "antd";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { AppContextProvider, useAppContext } from "contexts/app.context";
@@ -15,9 +16,11 @@ function AppContainer() {
     <Router>
       <QueryClientProvider client={queryClient}>
         <AppContextProvider>
-          <ThemeProvider theme={theme}>
-            <App />
-          </ThemeProvider>
+          <ConfigProvider componentSize="large" space={{ size: "middle" }}>
+            <ThemeProvider theme={theme}>
+              <App />
+            </ThemeProvider>
+          </ConfigProvider>
         </AppContextProvider>
         <ReactQueryDevtools initialIsOpen={false} position="top-right" />
       </QueryClientProvider>
