@@ -18,7 +18,7 @@ const createHeaders = () => {
   return new Headers(headers);
 };
 
-export const getQueryString = (params: any) => {
+export const getQueryString = (params: any): string => {
   var esc = encodeURIComponent;
   return Object.keys(params)
     .filter((k) => !!params[k])

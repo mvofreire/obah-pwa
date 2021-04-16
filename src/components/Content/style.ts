@@ -1,4 +1,10 @@
 import { makeStyles } from "@material-ui/styles";
+
+const directions: Record<string, any> = {
+  vertical: "column",
+  horizontal: "row",
+};
+
 export default makeStyles({
   root: {
     position: "relative",
@@ -14,5 +20,6 @@ export default makeStyles({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: (p: any) => directions[p.direction],
   },
 });
