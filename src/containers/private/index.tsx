@@ -1,7 +1,13 @@
 import React, { Suspense, useCallback, useEffect, createRef } from "react";
-import { Layout, Spin } from "antd";
+import { Col, Layout, Row, Spin } from "antd";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
-import { Logo, Tabs, TabsRef, Content as ObahContent } from "components";
+import {
+  Logo,
+  Tabs,
+  TabsRef,
+  Content as ObahContent,
+  Section,
+} from "components";
 import { tabItems } from "./tabs.config";
 import useStyle from "./style";
 
@@ -56,7 +62,14 @@ function App() {
   return (
     <Layout className={classes.root}>
       <Header className={classes.header}>
-        <Logo className={classes.logo} onClick={() => changePage("home")} />
+        <Row className={classes.headerGrid} align='middle' justify='space-between'>
+          <Col flex="130px">
+            <Logo className={classes.logo} onClick={() => changePage("home")} />
+          </Col>
+          <Col flex="auto" className={classes.actions}>
+            <Section sectionKey="header-actions" />
+          </Col>
+        </Row>
       </Header>
       <Content className={classes.content}>
         <Suspense fallback={suspenceFallback}>
@@ -66,10 +79,8 @@ function App() {
             <Route path="/near-me" component={NearMePage} />
             <Route path="/vouchers" component={VoucherPage} />
             <Route path="/config" component={ConfigPage} />
-
             <Route path="/promotion/:id" component={PromotionDetail} />
             <Route path="/voucher/:id" component={VoucherDetail} />
-
             <Redirect to="/home" />
           </Switch>
         </Suspense>

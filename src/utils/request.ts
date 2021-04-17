@@ -1,21 +1,23 @@
 import config from "config";
 import { getStorage } from "utils/storage";
+import axios from "axios";
 
-const createUrl = async (endpoint: string) => {
+const createUrl = (endpoint: string) => {
   return `${config.baseUrl}${endpoint}`;
 };
 
-const createHeaders = () => {
+const createHeaders = (headers: Record<string, any> = {}) => {
   const session = getStorage(config.storageKey);
-  let headers: Record<string, string> = {
+  let _headers: Record<string, string> = {
     "Content-Type": "application/json",
+    ...headers,
   };
 
   if (!!session) {
-    headers["Authorization"] = `Bearer ${session.token}`;
+    _headers["Authorization"] = `Bearer ${session.token}`;
   }
 
-  return new Headers(headers);
+  return new Headers(_headers);
 };
 
 export const getQueryString = (params: any): string => {
@@ -26,12 +28,18 @@ export const getQueryString = (params: any): string => {
     .join("&");
 };
 
-const createResponse = async (response: Response) => {
+const createResponse = async (response: Response, isJSONResponse = true) => {
   const { ok } = response;
-  if (ok) {
-    return response.json();
+
+  if (!ok) {
+    throw new Error();
   }
-  throw new Error();
+
+  if (ok && isJSONResponse) {
+    return response.json();
+  } else {
+    return response;
+  }
 };
 
 const get = async (endpoint: string, params = null) => {
@@ -46,7 +54,7 @@ const get = async (endpoint: string, params = null) => {
 };
 
 const post = async (endpoint: string, params: any) => {
-  const url = await createUrl(endpoint);
+  const url = createUrl(endpoint);
   const response = await fetch(url, {
     method: "POST",
     headers: await createHeaders(),
@@ -56,10 +64,25 @@ const post = async (endpoint: string, params: any) => {
   return createResponse(response);
 };
 
+const upload = async (endpoint: string, params: Record<string, File>) => {
+  const url = createUrl(endpoint);
+  const session = getStorage(config.storageKey);
+  const formData = new FormData();
+  Object.keys(params).forEach((key: string) => {
+    formData.append(key, params[key]);
+  });
+  return axios.post(url, formData, {
+    headers: {
+      Authorization: `Bearer ${session?.token}`,
+    },
+  });
+};
+
 const initInstance = () => {
   return {
     get,
     post,
+    upload,
   };
 };
 

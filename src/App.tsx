@@ -1,8 +1,6 @@
-import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ConfigProvider } from "antd";
 import { QueryClientProvider, QueryClient } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
 import { AppContextProvider, useAppContext } from "contexts/app.context";
 import { ThemeProvider } from "@material-ui/styles";
 import PrivateContainer from "containers/private";
@@ -22,7 +20,6 @@ function AppContainer() {
             </ThemeProvider>
           </ConfigProvider>
         </AppContextProvider>
-        <ReactQueryDevtools initialIsOpen={false} position="top-right" />
       </QueryClientProvider>
     </Router>
   );

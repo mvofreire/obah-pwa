@@ -1,13 +1,19 @@
-import React from "react";
-import { Content } from "components";
+import { Content, PullToRefresh } from "components";
 import HighlightPromotions from "./HighlightPromotions";
 import HomeActions from "./HomeActions";
+import { useCounterRefresh } from "hooks/counter.hook";
 
-const HomePage = () => (
-  <Content>
-    <HighlightPromotions />
-    <HomeActions />
-  </Content>
-);
+const HomePage = () => {
+  const { counter, onRefresh } = useCounterRefresh();
+
+  return (
+    <PullToRefresh onRefresh={onRefresh}>
+      <Content>
+        <HighlightPromotions key={`promo-${counter}`} />
+        <HomeActions key={`actions-${counter}`} />
+      </Content>
+    </PullToRefresh>
+  );
+};
 
 export default HomePage;

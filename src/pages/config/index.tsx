@@ -1,10 +1,24 @@
-import React from "react";
-import { Avatar, Button, Divider, List, Typography } from "antd";
+import React, { useCallback, useRef } from "react";
+import { Avatar, Button, Divider, List, Space, Typography } from "antd";
 import { useAppContext } from "contexts/app.context";
+import { changeUserImage } from "services/user.service";
 import { Content } from "components";
+import { IUser } from "interfaces/IUser";
 
 const ConfigPage = () => {
-  const { logoutUser, user } = useAppContext();
+  const fileRef = useRef<HTMLInputElement>(null);
+  const { logoutUser, user, setUserInformation } = useAppContext();
+
+  const handleChangeImage = useCallback(
+    async (e: any) => {
+      const { files } = e.target;
+      if (!!files[0]) {
+        const { data } = await changeUserImage(files[0]);
+        setUserInformation(data as IUser);
+      }
+    },
+    [setUserInformation]
+  );
 
   return (
     <Content
@@ -13,8 +27,19 @@ const ConfigPage = () => {
         textAlign: "center",
       }}
     >
-      <Avatar size={64} src={user?.image} />
-      <Typography.Title level={3}>{user?.name}</Typography.Title>
+      <Space direction="vertical" size={20}>
+        <Avatar size={64} src={user?.image} />
+        <Typography.Text type="danger" onClick={() => fileRef.current?.click()}>
+          <input
+            ref={fileRef}
+            onChange={handleChangeImage}
+            type="file"
+            style={{ visibility: "hidden" }}
+          />
+          alterar imagem
+        </Typography.Text>
+        <Typography.Title level={3}>{user?.name}</Typography.Title>
+      </Space>
       <Divider />
       <List split={false}>
         <List.Item>Histórico</List.Item>

@@ -2,14 +2,19 @@ import React from "react";
 import { Divider } from "antd";
 import PopularPromotions from "./PopularPromotions";
 import ExplorePromotions from "./ExplorePromotions";
-import { Content } from "components";
+import { Content, PullToRefresh } from "components";
+import { useCounterRefresh } from "hooks/counter.hook";
+
 const ExplorePage = () => {
+  const { counter, onRefresh } = useCounterRefresh();
   return (
-    <Content>
-      <PopularPromotions />
-      <Divider />
-      <ExplorePromotions />
-    </Content>
+    <PullToRefresh onRefresh={onRefresh}>
+      <Content>
+        <PopularPromotions key={`popular-${counter}`} />
+        <Divider />
+        <ExplorePromotions key={`explore-${counter}`} />
+      </Content>
+    </PullToRefresh>
   );
 };
 

@@ -11,6 +11,7 @@ interface AppContextValue {
   user: IUser | null;
   setUserSession: (session: any) => void;
   logoutUser: () => void;
+  setUserInformation: (user: IUser) => void;
 }
 
 const AppContext = React.createContext({} as AppContextValue);
@@ -26,6 +27,11 @@ const AppContextProvider: React.FunctionComponent = ({ children }) => {
     setStorage(config.storageKey, userSession);
 
     const userInformation = await loadLoggedUserInformation();
+    setUser(userInformation);
+    setStorage(config.storageUserKey, userInformation);
+  }, []);
+
+  const setUserInformation = useCallback(async (userInformation) => {
     setUser(userInformation);
     setStorage(config.storageUserKey, userInformation);
   }, []);
@@ -48,7 +54,15 @@ const AppContextProvider: React.FunctionComponent = ({ children }) => {
   }, [history]);
 
   return (
-    <AppContext.Provider value={{ session, setUserSession, logoutUser, user }}>
+    <AppContext.Provider
+      value={{
+        session,
+        setUserSession,
+        logoutUser,
+        user,
+        setUserInformation,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );
