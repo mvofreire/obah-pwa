@@ -25,6 +25,14 @@ const data: Action[] = [
     label: "Settings",
     path: "/config",
   },
+  {
+    label: "Settings",
+    path: "/config",
+  },
+  {
+    label: "Settings",
+    path: "/config",
+  },
 ];
 
 const useStyles = makeStyles((theme: any) => ({
