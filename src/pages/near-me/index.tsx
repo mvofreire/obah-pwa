@@ -1,36 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { LatLngExpression, LatLng } from "leaflet";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
-import { Content } from "components";
-
-const LocationMarker = () => {
-  const [position, setPosition] = useState<LatLng>();
-  const map = useMapEvents({
-    locationfound(e) {
-      const p = e.latlng;
-      setPosition(p);
-      map.setView(p);
-    },
-  });
-
-  useEffect(() => {
-    map.locate();
-  }, [map]);
-
-  if (!!position) {
-    return <Marker position={position} />;
-  } else {
-    return null;
-  }
-};
+import React, { createRef, useCallback, useState } from "react";
+import { LatLngExpression } from "leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
+import { Content, Icon, Icons, SectionContent } from "components";
+import LocationMarker, { LocationMarkerRef } from "./LocationMarker";
 
 const NearMePage = () => {
+  const map = createRef<LocationMarkerRef>();
+  const [isLocating, setIsLocating] = useState<boolean>(false);
   const position: LatLngExpression = [51.505, -0.09];
+
+  const handleReloadLocationClick = useCallback(() => {
+    map.current?.locate();
+  }, [map]);
+
+  const handleOnStartLocate = useCallback(() => {
+    setIsLocating(true);
+  }, []);
+
+  const handleOnLocationFound = useCallback(() => {
+    setIsLocating(false);
+  }, []);
+
   return (
     <Content>
+      <SectionContent sectionKey="header-actions">
+        <Icon
+          name={isLocating ? Icons.ReloadOutlined : Icons.AimOutlined}
+          spin={isLocating}
+          onClick={handleReloadLocationClick}
+        />
+      </SectionContent>
       <MapContainer style={{ height: "100%" }} center={position} zoom={13}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <LocationMarker />
+        <LocationMarker
+          ref={map}
+          onLocationFound={handleOnLocationFound}
+          onStartLocate={handleOnStartLocate}
+        />
       </MapContainer>
     </Content>
   );

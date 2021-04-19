@@ -7,3 +7,4 @@ export * from "./Content";
 export * from "./ConditionalRender";
 export * from "./Section";
 export * from "./PullToRefresh";
+export * from "./Icon";

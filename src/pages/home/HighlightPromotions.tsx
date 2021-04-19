@@ -1,6 +1,6 @@
 import React from "react";
 import { Empty, Spin, Typography } from "antd";
-import { PromotionCarousel, Image, SectionContent } from "components";
+import { PromotionCarousel, Image } from "components";
 import { useHighlightPromotions } from "hooks/promotion.hook";
 import { Link } from "react-router-dom";
 
@@ -13,9 +13,6 @@ const HighlightPromotions: React.FC = () => {
 
   return (
     <Spin spinning={isLoading}>
-      <SectionContent sectionKey="header-actions">
-        <h2>teste</h2>
-      </SectionContent>
       <PromotionCarousel
         data={data}
         renderItem={(promotion) => (

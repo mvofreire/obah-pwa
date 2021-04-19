@@ -5,7 +5,7 @@ import { changeUserImage } from "services/user.service";
 import { Content } from "components";
 import { IUser } from "interfaces/IUser";
 
-const ConfigPage = () => { 
+const ConfigPage = () => {
   const fileRef = useRef<HTMLInputElement>(null);
   const { logoutUser, user, setUserInformation } = useAppContext();
 
@@ -21,40 +21,42 @@ const ConfigPage = () => {
   );
 
   return (
-    <Content
-      padding={[40, 10]}
-      style={{
-        textAlign: "center",
-      }}
-    >
-      <Space direction="vertical" size={20}>
-        <Avatar size={64} src={user?.image} />
-        <Typography.Text type="danger" onClick={() => fileRef.current?.click()}>
-          <input
-            ref={fileRef}
-            onChange={handleChangeImage}
-            type="file"
-            style={{ visibility: "hidden" }}
-          />
-          alterar imagem
-        </Typography.Text>
-        <Typography.Title level={3}>{user?.name}</Typography.Title>
-      </Space>
-      <Divider />
-      <List split={false}>
-        <List.Item>Histórico</List.Item>
-        <List.Item>Favoritos</List.Item>
-      </List>
-      <Divider />
-      <List split={false}>
-        <List.Item>Ajuda</List.Item>
-        <List.Item>Configurações</List.Item>
-        <List.Item>Sugestões</List.Item>
-      </List>
-      <Button type="primary" danger block onClick={logoutUser}>
-        Sair da minha Conta
-      </Button>
-    </Content>
+    <>
+      <input
+        ref={fileRef}
+        onChange={handleChangeImage}
+        type="file"
+        style={{ visibility: "hidden", width: 0, height: 0 }}
+      />
+      <Content
+        padding={[40, 10]}
+        style={{
+          textAlign: "center",
+        }}
+      >
+        <Space direction="vertical" size={20}>
+          <Avatar size={64} src={user?.image} />
+          <Button type="link" onClick={() => fileRef.current?.click()}>
+            Alterar Imagem
+          </Button>
+          <Typography.Title level={3}>{user?.name}</Typography.Title>
+        </Space>
+        <Divider />
+        <List split={false}>
+          <List.Item>Histórico</List.Item>
+          <List.Item>Favoritos</List.Item>
+        </List>
+        <Divider />
+        <List split={false}>
+          <List.Item>Ajuda</List.Item>
+          <List.Item>Configurações</List.Item>
+          <List.Item>Sugestões</List.Item>
+        </List>
+        <Button type="primary" danger block onClick={logoutUser}>
+          Sair da minha Conta
+        </Button>
+      </Content>
+    </>
   );
 };
 
