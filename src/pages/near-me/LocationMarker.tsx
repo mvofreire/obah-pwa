@@ -27,8 +27,7 @@ const LocationMarker = forwardRef(
 
     const map = useMapEvents({
       drag() {
-        const latLng = map.getCenter();
-        setPosition(latLng);
+        handleUpdatePosition()
       },
       locationfound(e) {
         const p = e.latlng;
@@ -36,12 +35,20 @@ const LocationMarker = forwardRef(
         map.setView(p);
         !!onLocationFound && onLocationFound();
       },
+      zoomend(){
+        handleUpdatePosition()
+      }
     });
 
     const handleStarLocate = useCallback(() => {
       !!onStartLocate && onStartLocate();
       map.locate();
     }, [map, onStartLocate]);
+
+    const handleUpdatePosition = useCallback(() => {
+      const latLng = map.getCenter();
+      setPosition(latLng);
+    }, [map, setPosition]);
 
     useImperativeHandle(ref, () => ({
       locate() {
