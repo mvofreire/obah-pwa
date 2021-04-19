@@ -5,10 +5,10 @@ import { PromotionCarousel, Image } from "components";
 import { Link } from "react-router-dom";
 
 const PopularPromotions = () => {
-  const { data, isLoading, isError } = usePopularPromotions();
+  const { data, isLoading } = usePopularPromotions();
 
-  if (isError) {
-    return <Empty />;
+  if (!isLoading && data.length===0) {
+    return <Empty description=':( - Nada a ser visto por aqui ainda!'/>;
   }
 
   return (

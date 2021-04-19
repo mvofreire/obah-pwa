@@ -5,10 +5,10 @@ import { GridView, Content } from "components";
 import PromotionDetail from "./PromotionDetail";
 
 const ExplorePromotions = () => {
-  const { data, isLoading, isError } = useExplorePromotions();
+  const { data, isLoading } = useExplorePromotions();
 
-  if (isError) {
-    return <Empty />;
+  if (!isLoading && data.length === 0) {
+    return <Empty description=':( Nada a ser visto por aqui.' />;
   }
 
   return (

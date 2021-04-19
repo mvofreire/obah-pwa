@@ -6,4 +6,7 @@ export enum HookType {
   popularPromotions = "popularPromotions",
   explorePromotions = "explorePromotions",
   voucher = "voucher",
+  stores = "stores",
+  store = "store",
+  storePromotions = "storePromotions",
 }

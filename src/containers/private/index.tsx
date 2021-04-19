@@ -19,6 +19,7 @@ const ConfigPage = React.lazy(() => import("pages/config"));
 
 const PromotionDetail = React.lazy(() => import("pages/promotion-detail"));
 const VoucherDetail = React.lazy(() => import("pages/voucher-detail"));
+const StoreDetail = React.lazy(() => import("pages/store-detail"));
 
 const { Header, Content, Footer } = Layout;
 
@@ -81,6 +82,7 @@ function App() {
             <Route path="/config" component={ConfigPage} />
             <Route path="/promotion/:id" component={PromotionDetail} />
             <Route path="/voucher/:id" component={VoucherDetail} />
+            <Route path="/store/:id" component={StoreDetail} />
             <Redirect to="/home" />
           </Switch>
         </Suspense>
