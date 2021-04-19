@@ -5,7 +5,7 @@ import { changeUserImage } from "services/user.service";
 import { Content } from "components";
 import { IUser } from "interfaces/IUser";
 
-const ConfigPage = () => {
+const ConfigPage = () => { 
   const fileRef = useRef<HTMLInputElement>(null);
   const { logoutUser, user, setUserInformation } = useAppContext();
 
