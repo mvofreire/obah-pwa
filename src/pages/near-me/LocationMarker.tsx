@@ -7,7 +7,7 @@ import React, {
   Ref,
   createRef,
 } from "react";
-import { LatLng, marker, Marker as MarkerRef } from "leaflet";
+import { LatLng, Marker as MarkerRef } from "leaflet";
 import { Marker, useMapEvents, LayerGroup, CircleMarker } from "react-leaflet";
 
 type LocationMarkerProps = {
