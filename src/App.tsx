@@ -37,6 +37,7 @@ function App() {
       onClick() {
         const href = window.location.href;
         window.location.href = href;
+        window.location.reload(true)
       },
     });
   }, []);
