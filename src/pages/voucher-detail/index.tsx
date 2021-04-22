@@ -1,12 +1,11 @@
 import React, { useCallback, useState } from "react";
 import { useVoucher } from "hooks/vouchers.hook";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { getStorage, setStorage, removeStorage } from "utils/storage";
 import {
   Button,
   Carousel,
   Divider,
-  Empty,
   Modal,
   PageHeader,
   Space,
@@ -23,7 +22,6 @@ import {
   ConditionalRender,
 } from "components";
 import QRCode from "qrcode.react";
-import { IVoucher } from "interfaces/IVoucher";
 
 const VoucherDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
