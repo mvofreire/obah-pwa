@@ -1,4 +1,5 @@
 import { HookType } from "enums/hooks";
+import { IPromotion } from "interfaces/IPromotion";
 import { IStore } from "interfaces/IStore";
 import { useQuery } from "react-query";
 import {
@@ -16,7 +17,7 @@ export const useStore = (id: string) => {
 };
 
 export const useStorePromotions = (storeId: string) => {
-  return useQuery([HookType.storePromotions, storeId], () =>
+  return useQuery<IPromotion[]>([HookType.storePromotions, storeId], () =>
     loadStorePromotions(storeId)
   );
 };

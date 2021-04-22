@@ -5,11 +5,11 @@ export default makeStyles({});
 export const useStoreListStyle = makeStyles({
   root: {
     position: "relative",
-    padding: 10,
     display: "flex",
     flexWrap: "nowrap",
     alignItems: "center",
     overflowX: "auto",
+    padding: '20px 0px',
   },
   item: {
     position: "relative",
@@ -18,6 +18,9 @@ export const useStoreListStyle = makeStyles({
     minHeight: 67,
     maxHeight: 67,
     marginRight: 14,
+    "&:first-child": {
+      marginLeft: 14,
+    }
   },
 
   store: {

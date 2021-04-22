@@ -5,6 +5,7 @@ import {
   loadPopularPromotions,
   loadExplorePromotions,
   loadPromotion,
+  loadPromotionsInBounds,
 } from "services/promotion.service";
 import { HookType } from "enums/hooks";
 
@@ -34,4 +35,22 @@ export const usePromotion = (id: string) => {
   return useQuery<IPromotion>([HookType.promotion, id], () =>
     loadPromotion(id)
   );
+};
+
+export const usePromotionsInBounds = (
+  bounds: LocationBounds | undefined,
+  config: {}
+) => {
+  return useQuery<IPromotion[]>({
+    queryKey: HookType.promotionInBounds,
+    queryFn: () => {
+      if (!!bounds) {
+        const { north, south, east, west } = bounds;
+        return loadPromotionsInBounds(north, south, east, west);
+      } else {
+        return Promise.resolve([]);
+      }
+    },
+    ...config,
+  });
 };

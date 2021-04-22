@@ -9,4 +9,5 @@ export enum HookType {
   stores = "stores",
   store = "store",
   storePromotions = "storePromotions",
+  promotionInBounds = "promotionInBounds"
 }
