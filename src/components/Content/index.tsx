@@ -13,6 +13,8 @@ type ContentProps = {
   direction?: "horizontal" | "vertical";
   style?: CSSProperties;
   className?: string;
+  width?: string | number;
+  height?: string | number;
 };
 
 const Content: React.FC<ContentProps> = ({
@@ -21,9 +23,11 @@ const Content: React.FC<ContentProps> = ({
   center = false,
   direction = "horizontal",
   className,
+  width = "100%",
+  height = "100%",
   ...rest
 }) => {
-  const classes = useStyle({ padding, direction });
+  const classes = useStyle({ padding, direction, width, height });
 
   return (
     <div

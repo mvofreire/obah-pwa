@@ -25,7 +25,8 @@ export default makeStyles((theme: any) => ({
   },
   logo: {
     zIndex: 1000,
-    margin: "4px 0px",
+    height:45,
+    margin: "10px 0px",
   },
   content: {
     height: "calc(100vh - 115px)",

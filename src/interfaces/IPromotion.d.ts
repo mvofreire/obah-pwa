@@ -10,7 +10,8 @@ export interface IPromotion {
   end_date: string;
   user_id: number;
   isParticipating: boolean;
-  position: Record<string, number>;
+  position_lat: number;
+  position_lng: number;
   created_at: string;
   updated_at: string;
   voucherId: number;

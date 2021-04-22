@@ -8,7 +8,8 @@ const directions: Record<string, any> = {
 export default makeStyles({
   root: {
     position: "relative",
-    height: "100%",
+    height: (p: any) => p.height,
+    width: (p: any) => p.width,
     padding: (p: any) =>
       Array.isArray(p.padding)
         ? p.padding.map((i: number) => `${i}px`).join(" ")

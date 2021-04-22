@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { Button, PageHeader, Spin } from "antd";
-import { ConditionalRender, Content, Image } from "components";
+import { Button, PageHeader, Space, Spin } from "antd";
+import { ConditionalRender, Content, Image, PullToRefresh } from "components";
 import { usePromotion } from "hooks/promotion.hook";
 import { useParams, useHistory, Link } from "react-router-dom";
 import useStyles from "./style";
@@ -8,7 +8,6 @@ import { useVoucherCreate } from "hooks/vouchers.hook";
 
 import { LatLngExpression } from "leaflet";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import PullToRefresh from "react-simple-pull-to-refresh";
 
 const PromotionDetail = () => {
   const classes = useStyles();
@@ -38,27 +37,32 @@ const PromotionDetail = () => {
           </div>
           <Content padding={[10, 20]}>
             <ConditionalRender condition={!isLoading}>
-              <ConditionalRender
-                condition={!data?.isParticipating}
-                elseRender={
-                  <Link to={`/voucher/${data?.voucherId}`}>
-                    Ver meu Voucher
-                  </Link>
-                }
-              >
-                <Button type="primary" block onClick={handleCreateVoucher}>
-                  Usar voucher
-                </Button>
-              </ConditionalRender>
+              <Space direction="vertical" style={{width:'100%'}}>
+                <ConditionalRender
+                  condition={!data?.isParticipating}
+                  elseRender={
+                    <Link to={`/voucher/${data?.voucherId}`}>
+                      Ver meu Voucher
+                    </Link>
+                  }
+                >
+                  <Button type="primary" block onClick={handleCreateVoucher}>
+                    Usar voucher
+                  </Button>
+                </ConditionalRender>
+                <Link to={`/store/${data?.store.id}`}>
+                  Ver promoções dessa loja
+                </Link>
+              </Space>
             </ConditionalRender>
           </Content>
-          {!!data && data.position !== null && (
-            <Content>
+          {!!data && (data.position_lat && data.position_lng) !== null && (
+            <Space style={{width:'100%'}} direction='vertical'>
               <div style={{ height: 300 }}>
                 <MapContainer
                   style={{ height: "100%" }}
                   center={
-                    [data?.position.lat, data?.position.lng] as LatLngExpression
+                    [data?.position_lat, data?.position_lng] as LatLngExpression
                   }
                   zoom={13}
                   scrollWheelZoom={false}
@@ -69,8 +73,8 @@ const PromotionDetail = () => {
                   <Marker
                     position={
                       [
-                        data?.position.lat,
-                        data?.position.lng,
+                        data?.position_lat,
+                        data?.position_lng,
                       ] as LatLngExpression
                     }
                   />
@@ -79,7 +83,7 @@ const PromotionDetail = () => {
               <Button type="default" block>
                 Obter Rotas
               </Button>
-            </Content>
+            </Space>
           )}
         </div>
       </Spin>

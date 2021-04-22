@@ -1,16 +1,14 @@
 import React from "react";
 import { Col, Row } from "antd";
 
-type GridViewProps = {
-  data: any[];
+type GridViewProps<T> = {
+  data: T[];
   columnsCount?: number;
-  renderItem: (item: any) => React.ReactNode | undefined;
+  renderItem: (item: T) => React.ReactNode | undefined;
 };
-const GridView: React.FC<GridViewProps> = ({
-  data,
-  columnsCount = 2,
-  renderItem,
-}) => {
+
+function GridView<T>(props: GridViewProps<T>) {
+  const { data, columnsCount = 2, renderItem } = props;
   return (
     <Row gutter={[16, 16]}>
       {data?.map((item, i) => (
@@ -20,6 +18,6 @@ const GridView: React.FC<GridViewProps> = ({
       ))}
     </Row>
   );
-};
+}
 
 export { GridView };

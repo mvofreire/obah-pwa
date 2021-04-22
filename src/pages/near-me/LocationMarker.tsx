@@ -1,43 +1,42 @@
-import React, {
+import { LatLng } from "leaflet";
+import {
   useEffect,
-  useState,
   useImperativeHandle,
   forwardRef,
   useCallback,
   Ref,
-  createRef,
 } from "react";
-import { LatLng, Marker as MarkerRef } from "leaflet";
-import { Marker, useMapEvents, LayerGroup, CircleMarker } from "react-leaflet";
+import { useMapEvents } from "react-leaflet";
 
 type LocationMarkerProps = {
   onStartLocate?: () => void;
-  onLocationFound?: () => void;
+  onLocationFound?: (latLng:LatLng) => void;
+  onUpdateLocation?: (bounds: LocationBounds) => void;
 };
 export type LocationMarkerRef = {
   locate: () => void;
 };
 const LocationMarker = forwardRef(
   (
-    { onLocationFound, onStartLocate }: LocationMarkerProps,
+    { onLocationFound, onStartLocate, onUpdateLocation }: LocationMarkerProps,
     ref: Ref<LocationMarkerRef>
   ) => {
-    const markerRef = createRef<MarkerRef>();
-    const [position, setPosition] = useState<LatLng>();
-
     const map = useMapEvents({
-      drag() {
-        handleUpdatePosition()
-      },
       locationfound(e) {
         const p = e.latlng;
-        setPosition(p);
-        map.setView(p);
-        !!onLocationFound && onLocationFound();
+        map.flyTo(p, 13);
+        !!onLocationFound && onLocationFound(p);
       },
-      zoomend(){
-        handleUpdatePosition()
-      }
+
+      moveend() {
+        const bounds = map.getBounds();
+        const north = bounds.getNorth();
+        const south = bounds.getSouth();
+        const east = bounds.getEast();
+        const west = bounds.getWest();
+
+        handleOnUpdateLocation({ north, south, east, west });
+      },
     });
 
     const handleStarLocate = useCallback(() => {
@@ -45,10 +44,9 @@ const LocationMarker = forwardRef(
       map.locate();
     }, [map, onStartLocate]);
 
-    const handleUpdatePosition = useCallback(() => {
-      const latLng = map.getCenter();
-      setPosition(latLng);
-    }, [map, setPosition]);
+    const handleOnUpdateLocation = useCallback((bounds: LocationBounds) => {
+      !!onUpdateLocation && onUpdateLocation(bounds);
+    }, [onUpdateLocation]);
 
     useImperativeHandle(ref, () => ({
       locate() {
@@ -60,17 +58,7 @@ const LocationMarker = forwardRef(
       handleStarLocate();
     }, [handleStarLocate]);
 
-    if (!!position) {
-      return (
-        <LayerGroup>
-          <CircleMarker center={position} radius={100}>
-            <Marker ref={markerRef} position={position} />
-          </CircleMarker>
-        </LayerGroup>
-      );
-    } else {
-      return null;
-    }
+    return null;
   }
 );
 

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const HighlightPromotions: React.FC = () => {
   const { data, isLoading, isError } = useHighlightPromotions();
 
-  if (isError) {
+  if (isError || (!isLoading && data?.length === 0)) {
     return <Empty />;
   }
 

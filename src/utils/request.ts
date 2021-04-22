@@ -42,7 +42,7 @@ const createResponse = async (response: Response, isJSONResponse = true) => {
   }
 };
 
-const get = async (endpoint: string, params = null) => {
+const get = async (endpoint: string, params = {}) => {
   const url = !!params
     ? await createUrl(`${endpoint}?${getQueryString(params)}`)
     : await createUrl(endpoint);
