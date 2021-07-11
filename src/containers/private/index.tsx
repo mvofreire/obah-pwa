@@ -63,7 +63,11 @@ function App() {
   return (
     <Layout className={classes.root}>
       <Header className={classes.header}>
-        <Row className={classes.headerGrid} align='middle' justify='space-between'>
+        <Row
+          className={classes.headerGrid}
+          align="middle"
+          justify="space-between"
+        >
           <Col flex="130px">
             <Logo className={classes.logo} onClick={() => changePage("home")} />
           </Col>
